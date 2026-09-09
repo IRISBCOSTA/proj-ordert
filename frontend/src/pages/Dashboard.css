@@ -1,0 +1,29 @@
+.dashboard-stub {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  text-align: left;
+}
+
+.dashboard-stub h1 {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.dashboard-stub p {
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.dashboard-stub .btn-nav {
+  border: none;
+  font-family: var(--font-body);
+}
