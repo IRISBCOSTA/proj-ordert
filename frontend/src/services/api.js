@@ -20,7 +20,7 @@ async function request(path, options = {}) {
 export function registerUser({ name, email, password }) {
     return request('/register', {
         method: 'POST',
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
     });
 }
 

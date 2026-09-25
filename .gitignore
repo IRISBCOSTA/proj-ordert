@@ -1,0 +1,17 @@
+gitbackend/.env
+backend/ordet-bank-api
+backend/*.log
+
+
+frontend/node_modules
+frontend/dist
+frontend/dist-ssr
+frontend/*.local
+frontend/.env
+
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+*.log
