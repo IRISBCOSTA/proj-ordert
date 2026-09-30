@@ -1,29 +1,223 @@
-.dashboard-stub {
+.dashboard {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 16px;
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 40px 24px;
-  text-align: left;
 }
 
-.dashboard-stub h1 {
+/* Cabeçalho */
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 48px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dash-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-heading);
   font-weight: 800;
+  font-size: 1.15rem;
   color: var(--color-primary);
-  margin: 0;
 }
 
-.dashboard-stub p {
+.dash-user {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+.dash-logout {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.dash-logout:hover {
+  background: var(--color-bg);
+}
+
+/* Conteúdo */
+.dash-main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Cartão de saldo */
+.balance-card {
+  background: var(--color-primary);
+  color: white;
+  border-radius: var(--radius);
+  padding: 28px 32px;
+}
+
+.balance-label {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.balance-value {
+  margin: 6px 0 12px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 2.4rem;
+}
+
+.balance-id {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* Grade com depósito, saque e transferência */
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* Cartão genérico (formulários e extrato) */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card h2 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--color-primary);
+}
+
+.card label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.card input {
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.card-submit {
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-top: auto;
+}
+
+.card-submit:hover {
+  background: var(--color-primary-dark);
+}
+
+.card-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Mensagens */
+.form-error {
+  background: #fbeceb;
+  color: var(--color-error);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 0.875rem;
   margin: 0;
 }
 
-.dashboard-stub .btn-nav {
-  border: none;
-  font-family: var(--font-body);
+.form-success {
+  background: #e8f5ec;
+  color: #1e7a3c;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Extrato */
+.statement-empty {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.statement-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.statement-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.statement-item:last-child {
+  border-bottom: none;
+}
+
+.statement-item p {
+  margin: 0;
+}
+
+.statement-type {
+  font-weight: 600;
+}
+
+.statement-date {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.amount-credit {
+  font-weight: 600;
+  color: #1e7a3c;
+}
+
+.amount-debit {
+  font-weight: 600;
+  color: var(--color-error);
+}
+
+/* Responsivo */
+@media (max-width: 800px) {
+  .dash-header {
+    padding: 16px 20px;
+  }
+
+  .dash-grid {
+    grid-template-columns: 1fr;
+  }
 }

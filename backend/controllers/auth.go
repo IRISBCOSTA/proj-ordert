@@ -18,6 +18,8 @@ type registerRequest struct {
 	Password string `json:"password"`
 }
 
+// Register cria o usuário E a conta bancária dele (saldo zero) na mesma
+// transação
 func Register(w http.ResponseWriter, r *http.Request) {
 	var req registerRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -36,18 +38,40 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var id int
-	err = database.DB.QueryRow(
+	tx, err := database.DB.Begin()
+	if err != nil {
+		httpx.Error(w, http.StatusInternalServerError, "Erro ao iniciar transação")
+		return
+	}
+	defer tx.Rollback()
+
+	var userID int
+	err = tx.QueryRow(
 		`INSERT INTO users (name, email, password_hash) VALUES ($1, $2, $3) RETURNING id`,
 		req.Name, req.Email, string(hash),
-	).Scan(&id)
+	).Scan(&userID)
 	if err != nil {
 		httpx.Error(w, http.StatusConflict, "Email já cadastrado")
 		return
 	}
 
+	var accountID int
+	err = tx.QueryRow(
+		`INSERT INTO accounts (user_id, balance) VALUES ($1, 0) RETURNING id`,
+		userID,
+	).Scan(&accountID)
+	if err != nil {
+		httpx.Error(w, http.StatusInternalServerError, "Erro ao criar conta bancária")
+		return
+	}
+
+	if err := tx.Commit(); err != nil {
+		httpx.Error(w, http.StatusInternalServerError, "Erro ao confirmar cadastro")
+		return
+	}
+
 	httpx.JSON(w, http.StatusCreated, map[string]any{
-		"id": id, "name": req.Name, "email": req.Email,
+		"id": userID, "name": req.Name, "email": req.Email, "account_id": accountID,
 	})
 }
 
@@ -87,8 +111,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	httpx.JSON(w, http.StatusOK, map[string]string{"token": token})
 }
 
-// rota protegida: só responde se o
-// middleware.RequireAuth já validou o token.
 func Me(w http.ResponseWriter, r *http.Request) {
 	userID := middleware.UserID(r)
 
@@ -104,4 +126,3 @@ func Me(w http.ResponseWriter, r *http.Request) {
 
 	httpx.JSON(w, http.StatusOK, user)
 }
-
